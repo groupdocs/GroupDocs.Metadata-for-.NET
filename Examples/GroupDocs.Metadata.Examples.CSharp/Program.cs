@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using GroupDocs.Metadata;
 using GroupDocs.Metadata.Examples.Utilities.CSharp;
-using GroupDocs.Metadata.Tools.Search;
-using GroupDocs.Metadata.Tools.Comparison;
+using GroupDocs.Metadata.Tools;
+using GroupDocs.Metadata.Examples.CSharp.Utilities;
 
 namespace GroupDocs.Metadata.Examples.CSharp
 {
@@ -17,8 +17,7 @@ namespace GroupDocs.Metadata.Examples.CSharp
              * Uncomment following function if you have product license.
              */
             //Common.ApplyLicense();
-
-
+            
             #region Working with Documents
 
             #region Working with Doc Files
@@ -56,6 +55,9 @@ namespace GroupDocs.Metadata.Examples.CSharp
             //Update document comments
             Documents.Doc.UpdateComments();
 
+            //update metadata and save the original file
+            Documents.Doc.SaveFileAfterMetadataUpdate();
+
             #endregion
 
             #region Working with Ppt Files
@@ -77,7 +79,13 @@ namespace GroupDocs.Metadata.Examples.CSharp
 
             //Remove custom property of Ppt file
             Documents.Ppt.RemoveCustomProperties();
+            
+            //Gets Comments, and Hidden Slides of Ppt file
+            Documents.Ppt.GetHiddenData();
 
+            //Removes Comments, and Hidden Slides of Ppt File
+            Documents.Ppt.RemoveHiddenData();
+           
             #endregion
 
             #region Working with Xls Files
@@ -99,7 +107,13 @@ namespace GroupDocs.Metadata.Examples.CSharp
 
             //Remove custom property of Xls file
             Documents.Xls.RemoveCustomProperties();
+            
+            //Get Comments and Hidden Sheets in Xls file
+            Documents.Xls.GetHiddenData();
 
+            //Remove HiddenSheets and Comments in Xls file
+            Documents.Xls.RemoveHiddenData();
+            
             #endregion
 
             #region Working with Pdf Files
@@ -143,11 +157,35 @@ namespace GroupDocs.Metadata.Examples.CSharp
 
             #endregion
 
+            #region Working with MSVisio Files
+
+            //Set metadata of MSVisio File
+            Documents.MSVisio.SetProperties();
+
+            //Get metadata of MSVisio file
+            Documents.OneNote.GetMetadata();
 
             #endregion
 
+            #endregion
 
             #region Working with Images
+            
+            #region Working with Jpeg2000
+            
+            //Get XMP properties of Jpeg2000 image
+            Images.JP2.GetXMPProperties();
+        
+            //Update XMP properties of Jpeg2000 image
+            Images.JP2.UpdateXMPProperties();
+            
+            //Read Metadata of JP2 Format
+            Images.JP2.ReadMetadataJP2();
+
+            //Remove XMP properties of Jpeg2000 image
+            Images.JP2.RemoveXMPData();
+            
+            #endregion
 
             #region Working with Gif
 
@@ -200,6 +238,36 @@ namespace GroupDocs.Metadata.Examples.CSharp
             //Remove Exif Info of Jpeg image
             Images.Jpeg.RemoveExifInfo();
 
+            //Read IPTC properties in Jpeg image
+            Images.Jpeg.GetIPTCMetadata();
+
+            //Read IPTC XMP metadata in Jpeg image
+            Images.Jpeg.GetIPTCPhotoMetadataFromXMP();
+
+            //Update IPTC XMP metadata in Jpeg image
+            Images.Jpeg.UpdateIPTCPhotoMetadataFromXMP();
+
+            //Update IPTC metadata in Jpeg image
+            Images.Jpeg.UpdateIPTCMetadataOfJPEG();
+
+            //Remove IPTC metadata in Jpeg image
+            Images.Jpeg.RemoveIPTCMetadataOfJPEG();
+
+            //Detects Bar-Codes in teh Jpeg Image
+            Images.Jpeg.DetectBarcodeinJpeg();
+
+            // Read Specific Exif tag
+            Images.Jpeg.ReadExifTag();
+
+            // Read All Exif tags
+            Images.Jpeg.ReadAllExifTags();
+
+            // Read Image Resource Blocks
+            Images.Jpeg.ReadImageResourceBlocks();
+
+            // Remove Photoshop Metadata 
+            Images.Jpeg.RemovePhotoshopMetadata();
+
             #endregion
 
             #region Working with Png
@@ -223,8 +291,15 @@ namespace GroupDocs.Metadata.Examples.CSharp
             Images.Png.RemoveXMPData();
 
             #endregion
-            #region Working with Tiff
 
+            #region Working with Tiff
+            
+            //Get XMP properties of Tiff image
+            Images.Tiff.GetXMPProperties();
+            
+            //Read File Directory Tags of Tiff Image
+            Images.Tiff.ReadTiffFileDirectoryTags();
+            
             //Read Exif Info of Tiff image
             Images.Tiff.GetExifInfo();
 
@@ -236,19 +311,30 @@ namespace GroupDocs.Metadata.Examples.CSharp
 
             //Remove Exif Info of Tiff image
             Images.Tiff.RemoveExifInfo();
+            
+            // Read IPTC Metadata 
+            Images.Tiff.ReadIPTCMetadata();
 
             #endregion
 
             #endregion
+
             #region Working with PSD
 
-            //Read metadata of PSD file
+            // Read metadata of PSD file
             Images.Psd.GetPsdInfo();
 
-            //Read XMP metadata of PSD file
+            // Read XMP metadata of PSD file
             Images.Psd.GetXMPProperties();
 
+            // Read Image Resource Block
+            Images.Psd.ReadImageResourceBlocks();
+
+            // Read IPTC Metadata 
+            Images.Psd.ReadIPTCMetadata();
+
             #endregion
+
             #region Working CAD files
 
             //Read basic metadata properties in DWG file
@@ -285,25 +371,33 @@ namespace GroupDocs.Metadata.Examples.CSharp
             #region Working with APIs
 
             //Compare document metadata
-            Documents.CompareDocument("Documents/Pdf/sample2.pdf", "Documents/Pdf/sample.pdf", ComparerSearchType.Difference);
+            APIs.Document.CompareDocument("Documents/Pdf/sample2.pdf", "Documents/Pdf/sample.pdf", ComparerSearchType.Difference);
 
             //Search document metadata in document
-            Documents.SearchMetadata("Documents/Xls/sample.xls", "Author", SearchCondition.Contains);
+            APIs.Document.SearchMetadata("Documents/Xls/sample.xls", "Author", SearchCondition.Contains);
 
             //Search document metadata in image
-            Images.SearchMetadata("Images/Tiff/sample.tif", "Owner", SearchCondition.Contains);
+            APIs.Image.SearchMetadata("Images/Tiff/sample.tif", "Owner", SearchCondition.Contains);
 
             //Replace metadata properties in documents
-            Documents.ReplaceMetadataProperties("Documents/Doc/sample.doc");
+            APIs.Document.ReplaceMetadataProperties("Documents/Doc/sample.doc");
 
             //Replace author name using custom Replace Handler in documents
-            Documents.ReplaceAuthorName("Documents/Doc/sample.doc");
+            APIs.Document.ReplaceAuthorName("Documents/Doc/sample.doc");
 
             //Detect protection in documents
             Documents.DetectProtection("Documents/Doc/sample.doc");
 
+            //Detect document format at runtime in a folder
+            Documents.RuntimeFormatDetection("Documents/Doc");
+
+
             //Compare Exif metadata in images
-            Images.CompareExifMetadata("Images/Jpeg/sample.jpg", "Images/Jpeg/sample2.jpg", ComparerSearchType.Difference);
+            APIs.Image.CompareExifMetadata("Images/Jpeg/sample.jpg", "Images/Jpeg/sample2.jpg", ComparerSearchType.Difference);
+
+            //Export metadata
+            APIs.ExportMetadata("Documents/Pdf/sample2.pdf", ExportTypes.ToExcel);
+
             #endregion
 
             #region Working with Utilities
@@ -330,15 +424,44 @@ namespace GroupDocs.Metadata.Examples.CSharp
             Common.GetFileFormats("Documents/Doc");
             //ExEnd:FormatRecognizerUsage
 
-
             #endregion
 
+            #region Working with MP3 Files
+            
+            //Export metadata of Mp3 format to Excel.
+            AudioFormats.Mp3.ExportMetadataToExcel();
 
+            // Detect MP3 audio format
+            AudioFormats.Mp3.DetectMp3Format();
+
+            //Read ID3v2 tag in MP3 format
+            AudioFormats.Mp3.ReadID3v2Tag();
+
+            //Read ID3v1 tag in MP3 format
+            AudioFormats.Mp3.ReadID3v1Tag();
+
+            //Read MPEG audio information
+            AudioFormats.Mp3.ReadMPEGAudioInfo();
+
+            // Read Layrics3 Tag
+            AudioFormats.Mp3.ReadLayrics3Tag();
+
+            // Update ID3v1Tag
+            AudioFormats.Mp3.UpdateID3v1Tag();
+            #endregion
+
+            #region Working with WAV Files
+
+            // Detect WAV format
+            AudioFormats.Wav.DetectWavFormat();
+
+            // Read Audio Details 
+            AudioFormats.Wav.ReadAudioDetails();
+
+            
+            #endregion
             Console.ReadKey();
 
         }
-
-
-
     }
 }

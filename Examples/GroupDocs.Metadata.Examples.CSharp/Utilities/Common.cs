@@ -5,7 +5,6 @@ using System.Text;
 using System.IO;
 using GroupDocs.Metadata.Tools;
 using GroupDocs.Metadata;
-using GroupDocs.Metadata.MetadataProperties;
 using GroupDocs.Metadata.Formats;
 
 namespace GroupDocs.Metadata.Examples.Utilities.CSharp
@@ -15,7 +14,7 @@ namespace GroupDocs.Metadata.Examples.Utilities.CSharp
         //ExStart:CommonProperties
         private const string SourceFolderPath = "../../../Data/Source/";
         private const string DestinationFolderPath = "../../../Data/Destination/";
-        private const string LicenseFilePath = "Groupdocs.Metadata.lic";
+        private const string LicenseFilePath = @"D:\ASPOSE\LICENSE\GroupDocs.Total.lic";
         //ExEnd:CommonProperties
 
         //ExStart:MapSourceFilePath

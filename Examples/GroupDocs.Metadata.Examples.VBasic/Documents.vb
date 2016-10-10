@@ -1,22 +1,14 @@
-﻿
-Imports System.Collections.Generic
+﻿Imports System.Collections.Generic
 Imports System.Linq
 Imports System.Text
 Imports GroupDocs.Metadata.Formats.Document
-Imports GroupDocs.Metadata.Standards.Doc
-Imports GroupDocs.Metadata.MetadataProperties
-Imports GroupDocs.Metadata.Standards.Pdf
-Imports GroupDocs.Metadata.Standards.Ppt
-Imports GroupDocs.Metadata.Standards.Xls
-Imports GroupDocs.Metadata.Examples.VBasic.Utilities
-Imports GroupDocs.Metadata.Standards.OneNote
-Imports GroupDocs.Metadata.Formats.OneNote
-Imports GroupDocs.Metadata.Tools.Comparison
-Imports GroupDocs.Metadata.Tools.Search
-Imports GroupDocs.Metadata.Xmp.Schemas.Pdf
-Imports GroupDocs.Metadata.Formats
 Imports GroupDocs.Metadata.Tools
-
+Imports GroupDocs.Metadata.Formats
+Imports GroupDocs.Metadata.Examples.VBasic.Utilities
+Imports GroupDocs.Metadata.Formats.Project
+Imports GroupDocs.Metadata.Exceptions
+Imports GroupDocs.Metadata.Xmp.Schemes 
+Imports System.IO
 
 Namespace GroupDocs.Metadata.Examples.VBasic
     Public NotInheritable Class Documents
@@ -286,6 +278,7 @@ Namespace GroupDocs.Metadata.Examples.VBasic
                     Console.WriteLine(exp.Message)
                 End Try
             End Sub
+
             ''' <summary>
             ''' Updates document comments of Doc file  
             ''' </summary> 
@@ -361,7 +354,7 @@ Namespace GroupDocs.Metadata.Examples.VBasic
                     Dim docFormat As New DocFormat(Common.MapSourceFilePath(filePath))
 
                     ' inspect document
-                    Dim inspectionResult As InspectionResult = docFormat.InspectDocument()
+                    Dim inspectionResult As DocInspectionResult = docFormat.InspectDocument()
 
                     ' display comments
                     If inspectionResult.Comments.Length > 0 Then
@@ -387,8 +380,9 @@ Namespace GroupDocs.Metadata.Examples.VBasic
                         For Each word As String In inspectionResult.HiddenText
                             Console.WriteLine(word)
                         Next
+                        'ExEnd:GetHiddenDataInDocument
+
                     End If
-                    'ExEnd:GetHiddenDataInDocument
                 Catch exp As Exception
                     Console.WriteLine(exp.Message)
                 End Try
@@ -403,7 +397,7 @@ Namespace GroupDocs.Metadata.Examples.VBasic
                     Dim docFormat As New DocFormat(Common.MapSourceFilePath(filePath))
 
                     ' inspect document
-                    Dim inspectionResult As InspectionResult = docFormat.InspectDocument()
+                    Dim inspectionResult As DocInspectionResult = docFormat.InspectDocument()
 
                     ' if merge fields are presented
                     If inspectionResult.Fields.Length > 0 Then
@@ -421,6 +415,43 @@ Namespace GroupDocs.Metadata.Examples.VBasic
                 End Try
             End Sub
 #End Region
+
+#Region "Working with Original File Docs"
+            ''' <summary>
+            '''  Save Changes after updating metadata of specific format
+            ''' </summary>
+            Public Shared Sub SaveFileAfterMetadataUpdate()
+                'ExStart:SaveFileAfterMetadataUpdate
+                ' initialize DocFormat
+                Dim docFormat As New DocFormat(Common.MapSourceFilePath(filePath))
+
+                ' update document properties
+                docFormat.DocumentProperties.Author = "Joe Doe"
+                docFormat.DocumentProperties.Company = "Aspose"
+
+                ' and commit changes
+                docFormat.Save()
+                'ExEnd:SaveFileAfterMetadataUpdate
+            End Sub
+
+            ''' <summary>
+            '''  Throw an Exception for Protected Document
+            ''' </summary>
+            Public Shared Sub DocumentProtectedException()
+                'ExStart:DocumentProtectedException
+                ' initialize DocFormat
+                Try
+                    Dim docFormat As New DocFormat(Common.MapSourceFilePath(filePath))
+
+                    ' and try to get document properties
+                    Dim documentProperties = docFormat.DocumentProperties
+                Catch ex As DocumentProtectedException
+                    Console.WriteLine("File is protected by password PDF: {0}", ex.Message)
+                End Try
+                'ExEnd:DocumentProtectedException
+            End Sub
+#End Region
+
         End Class
 
         Public NotInheritable Class Pdf
@@ -428,7 +459,7 @@ Namespace GroupDocs.Metadata.Examples.VBasic
             End Sub
             ' initialize file path
             'ExStart:SourcePdfFilePath
-            Private Const filePath As String = "Documents/Pdf/sample.pdf"
+            Private Const filePath As String = "Documents/Pdf/Annotated.pdf"
             'ExEnd:SourcePdfFilePath
 #Region "working with builtin document properties"
             ''' <summary>
@@ -640,9 +671,9 @@ Namespace GroupDocs.Metadata.Examples.VBasic
                     Dim pdfPackage As PdfPackage = pdfFormat.XmpValues.Schemes.Pdf
 
                     Console.WriteLine("Keywords: {0}", pdfPackage.Keywords)
-                    Console.WriteLine("PdfVersion: {0}", pdfPackage.PdfVersion) 
-                    Console.WriteLine("Producer: {0}", pdfPackage.Producer)
+                    Console.WriteLine("PdfVersion: {0}", pdfPackage.PdfVersion)
                     'ExEnd:GetXMPPropertiesPdfFormat
+                    Console.WriteLine("Producer: {0}", pdfPackage.Producer)
                 Catch exp As Exception
                     Console.WriteLine(exp.Message)
                 End Try
@@ -712,7 +743,7 @@ Namespace GroupDocs.Metadata.Examples.VBasic
             End Sub
             ' initialize file path
             'ExStart:SourcePptFilePath
-            Private Const filePath As String = "Documents/Ppt/sample.ppt"
+            Private Const filePath As String = "Documents/Ppt/sample.pptx"
             'ExEnd:SourcePptFilePath
 #Region "working with builtin document properties"
             ''' <summary>
@@ -901,6 +932,68 @@ Namespace GroupDocs.Metadata.Examples.VBasic
                     'ExEnd:ClearCustomPropertyPptFormat
 
                     Console.WriteLine("File saved in destination folder.")
+                Catch exp As Exception
+                    Console.WriteLine(exp.Message)
+                End Try
+            End Sub
+#End Region
+
+#Region "working with hidden fields"
+            ''' <summary>
+            ''' Gets Comments, and Hidden Slides of PowerPoint file
+            ''' </summary> 
+            Public Shared Sub GetHiddenData()
+                Try
+                    'ExStart:GetHiddenDataInPPT
+                    ' initialize PptFormat
+                    Dim pptFormat As New PptFormat(Common.MapSourceFilePath(filePath))
+
+                    ' get hidden data
+                    Dim hiddenData As PptInspectionResult = pptFormat.InspectDocument()
+
+                    ' get comments
+                    Dim comments As PptComment() = hiddenData.Comments
+
+                    ' get slides
+                    Dim slides As PptSlide() = hiddenData.HiddenSlides
+
+                    For Each comment As PptComment In comments
+                        Console.WriteLine("Author: {0}, Slide: {1}", comment.Author, comment.SlideId)
+                        'ExEnd:GetHiddenDataInPPT
+                    Next
+                Catch exp As Exception
+                    Console.WriteLine(exp.Message)
+                End Try
+            End Sub
+
+            ''' <summary>
+            ''' Removes Comments, and Hidden Slides of PowerPoint file
+            ''' </summary> 
+            Public Shared Sub RemoveHiddenData()
+                Try
+                    'ExStart:RemoveHiddenDataInPPT
+                    ' initialize PptFormat
+                    Dim pptFormat As New PptFormat(Common.MapSourceFilePath(filePath))
+
+                    ' get hidden data
+                    Dim hiddenData As PptInspectionResult = pptFormat.InspectDocument()
+
+                    ' get comments
+                    Dim comments As PptComment() = hiddenData.Comments
+
+                    If comments.Length > 0 Then
+                        ' remove all comments
+                        pptFormat.RemoveHiddenData(New PptInspectionOptions(PptInspectorOptionsEnum.Comments))
+                        Console.WriteLine("Hidden sheets removed.")
+
+                        ' and commit changes
+                        pptFormat.Save()
+                        Console.WriteLine("Changes saved successfully!")
+                    Else
+                        Console.WriteLine("No comments found!")
+                        'ExEnd:RemoveHiddenDataInPPT
+
+                    End If
                 Catch exp As Exception
                     Console.WriteLine(exp.Message)
                 End Try
@@ -1107,6 +1200,71 @@ Namespace GroupDocs.Metadata.Examples.VBasic
                 End Try
             End Sub
 #End Region
+#Region "working with hidden fields"
+            ''' <summary>
+            ''' Gets comments and hidden sheets of Xls file
+            ''' </summary> 
+            Public Shared Sub GetHiddenData()
+                Try
+                    'ExStart:GetHiddenDataInXls
+                    ' initialize XlsFormat
+                    Dim xlsFormat As New XlsFormat(Common.MapSourceFilePath(filePath))
+
+                    ' get hidden data
+                    Dim hiddenData As XlsInspectionResult = xlsFormat.InspectDocument()
+
+                    ' get hidden sheets
+                    Dim hiddenSheets As XlsSheet() = hiddenData.HiddenSheets
+
+                    ' get comments
+                    Dim comments As XlsComment() = hiddenData.Comments
+
+                    If comments.Length > 0 Then
+                        For Each comment As XlsComment In comments
+                            Console.WriteLine("Comment: {0}, Column: {1}", comment.ToString(), comment.Column)
+                        Next
+                    Else
+                        Console.WriteLine("No comment found!")
+                        'ExEnd:GetHiddenDataInXls
+                    End If
+                Catch exp As Exception
+                    Console.WriteLine(exp.Message)
+                End Try
+            End Sub
+            ''' <summary>
+            ''' Removes hidden data of Xls file
+            ''' </summary> 
+            Public Shared Sub RemoveHiddenData()
+                Try
+                    'ExStart:RemoveHiddenDataInXls
+                    ' initialize XlsFormat
+                    Dim xlsFormat As New XlsFormat(Common.MapSourceFilePath(filePath))
+
+                    ' get hidden data
+                    Dim hiddenData As XlsInspectionResult = xlsFormat.InspectDocument()
+
+                    ' get hidden sheets
+                    Dim hiddenSheets As XlsSheet() = hiddenData.HiddenSheets
+
+
+                    ' display hidden fields 
+                    If hiddenSheets.Length > 0 Then
+                        ' clear hidden sheets
+                        xlsFormat.RemoveHiddenData(New XlsInspectionOptions(XlsInspectorOptionsEnum.HiddenSheets))
+                        Console.WriteLine("Hidden sheets removed.")
+
+                        ' and commit changes
+                        xlsFormat.Save()
+                        Console.WriteLine("Changes save successfully!")
+                    Else
+                        Console.WriteLine("No sheets found.")
+                        'ExEnd:RemoveHiddenDataInXls
+                    End If
+                Catch exp As Exception
+                    Console.WriteLine(exp.Message)
+                End Try
+            End Sub
+#End Region
         End Class
 
         Public NotInheritable Class OneNote
@@ -1181,45 +1339,95 @@ Namespace GroupDocs.Metadata.Examples.VBasic
 
         End Class
 
-        ''' <summary>
-        ''' Compares metadata of two documents and displays result 
-        ''' </summary> 
-        Public Shared Sub CompareDocument(firstDocument As String, secondDocument As String, type As ComparerSearchType)
-            Try
-                'ExStart:ComparisonAPI
-                firstDocument = Common.MapSourceFilePath(firstDocument)
-                secondDocument = Common.MapSourceFilePath(secondDocument)
 
-                Dim differnces As MetadataPropertyCollection = ComparisonFacade.CompareDocuments(firstDocument, secondDocument, type)
+        Public NotInheritable Class MSProject
+            Private Sub New()
+            End Sub
+            ' initialize file path
+            'ExStart:SourceMSProjectFilePath
+            Private Const filePath As String = "Documents/MSProject/sample.mpp"
+            'ExEnd:SourceMSProjectFilePath
 
-                For Each [property] As MetadataProperty In differnces
-                    Console.WriteLine("{0} : {1}", [property].Name, [property].Value)
-                Next
-                'ExEnd:ComparisonAPI
-            Catch exp As Exception
-                Console.WriteLine("Exception occurred: " + exp.Message)
-            End Try
+            ''' <summary>
+            ''' Gets properties of MS Project file  
+            ''' </summary> 
+            Public Shared Sub GetMetadata()
+                Try
+                    'ExStart:GetMetadataMppFormat
+                    ' initialize MppFormat
+                    Dim mppFormat As New MppFormat(Common.MapSourceFilePath(filePath))
 
-        End Sub
-        ''' <summary>
-        ''' Searches metadata in document 
-        ''' </summary> 
-        Public Shared Sub SearchMetadata(filePath As String, propertyName As String, searchCondition As SearchCondition)
-            Try
-                'ExStart:DocumentSearchAPI
-                filePath = Common.MapSourceFilePath(filePath)
+                    ' get document properties
+                    Dim properties As MppMetadata = mppFormat.GetProperties()
 
-                Dim properties As MetadataPropertyCollection = SearchFacade.ScanDocument(filePath, propertyName, searchCondition)
+                    If mppFormat IsNot Nothing Then
+                        ' get Author 
+                        Console.WriteLine("Author: {0}", properties.Author)
+                        ' get Company 
+                        Console.WriteLine("Company: {0}", properties.Company)
+                        ' get Keywords 
+                        Console.WriteLine("Keywords: {0}", properties.Keywords)
+                        'ExEnd:GetMetadataMppFormat
+                    End If
+                Catch exp As Exception
+                    Console.WriteLine(exp.Message)
+                End Try
+            End Sub
+        End Class
 
-                For Each [property] As MetadataProperty In properties
-                    Console.WriteLine("{0} : {1}", [property].Name, [property].Value)
-                Next
-                'ExEnd:DocumentSearchAPI
-            Catch exp As Exception
-                Console.WriteLine("Exception occurred: " + exp.Message)
-            End Try
+        Public NotInheritable Class MSVisio
+            Private Sub New()
+            End Sub
+            ' initialize file path
+            'ExStart:SourceMSProjectFilePath
+            Private Const filePath As String = "Documents/MSVisio/sample.vdx"
+            'ExEnd:SourceMSProjectFilePath
 
-        End Sub
+            ''' <summary>
+            ''' Gets properties of MS Visio file  
+            ''' </summary> 
+            Public Shared Sub GetMetadata()
+                Try
+                    'ExStart:GetMetadataMppFormat
+                    ' initialize MppFormat
+                    Dim mppFormat As New MppFormat(Common.MapSourceFilePath(filePath))
+
+                    ' get document properties
+                    Dim properties As MppMetadata = mppFormat.GetProperties()
+
+                    If mppFormat IsNot Nothing Then
+                        ' get Author 
+                        Console.WriteLine("Author: {0}", properties.Author)
+                        ' get Company 
+                        Console.WriteLine("Company: {0}", properties.Title)
+                        'ExEnd:GetMetadataMppFormat
+                    End If
+                Catch exp As Exception
+                    Console.WriteLine(exp.Message)
+                End Try
+            End Sub
+
+
+            ''' <summary>
+            ''' Sets properties of MS Project file  
+            ''' </summary> 
+            Public Shared Sub SetProperties()
+                ' initialize VisioFormat
+                Dim visioFormat As New VisioFormat(Common.MapSourceFilePath(filePath))
+
+                ' update creator
+                visioFormat.DocumentProperties.Creator = "John Doe"
+
+                ' update title
+                visioFormat.DocumentProperties.Title = "Example Title"
+
+                ' commit changes
+                visioFormat.Save()
+
+                Console.WriteLine("Creator: {0}: ", visioFormat.DocumentProperties.Creator)
+                Console.WriteLine("Title: {0}: ", visioFormat.DocumentProperties.Title)
+            End Sub
+        End Class
 
         ''' <summary>
         ''' Detects document protection
@@ -1263,41 +1471,31 @@ Namespace GroupDocs.Metadata.Examples.VBasic
 
         End Sub
         ''' <summary>
-        ''' Replaces author name in document using custom ReplaceHandler
-        ''' </summary> 
-        Public Shared Sub ReplaceAuthorName(filePath As String)
-            Try
-                'ExStart:ReplaceAuthorName
-                ' initialize custom handler, send output path using constructor
-                Dim replaceHandler As IReplaceHandler(Of MetadataProperty) = New AuthorReplaceHandler(Common.MapDestinationFilePath(filePath))
+        ''' Detects document format at runtime 
+        ''' Enhancement in version 1.7
+        ''' </summary>
+        Public Shared Sub RuntimeFormatDetection(directoryPath As String)
+            'ExStart:RuntimeFormatDetection
+            'string directoryPath = @"C:\\download files";
+            Dim files As String() = Directory.GetFiles(directoryPath)
 
-                ' replace author
-                Dim affectedPropertiesCount As Integer = SearchFacade.ReplaceInDocument(Common.MapSourceFilePath(filePath), replaceHandler)
-                'ExEnd:ReplaceAuthorName
-            Catch exp As Exception
-                Console.WriteLine("Exception occurred: " + exp.Message)
-            End Try
+            For Each path__1 As String In files
+                Dim metadata As Global.GroupDocs.Metadata.Metadata = MetadataUtility.ExtractSpecificMetadata(path__1, MetadataType.Document)
+                ' check if file has document format
+                If metadata Is Nothing Then
+                    Continue For
+                End If
 
-        End Sub
-        ''' <summary>
-        ''' Replaces author name in document using custom ReplaceHandler
-        ''' </summary> 
-        Public Shared Sub ReplaceMetadataProperties(filePath As String)
-            Try
-                'ExStart:ReplaceMetadataProperties
-                ' replace 'author' value
-                SearchFacade.ReplaceInDocument(Common.MapSourceFilePath(filePath), "Author", "Jack London", SearchCondition.Matches, Common.MapDestinationFilePath(filePath))
+                Console.WriteLine("File: {0}" & vbLf, Path.GetFileName(path__1))
 
-                ' replace all properties contained 'co' to 'some value'
+                Dim values As IEnumerable(Of KeyValuePair(Of [String], PropertyValue)) = DirectCast(metadata, IEnumerable(Of KeyValuePair(Of [String], PropertyValue)))
 
-                SearchFacade.ReplaceInDocument(Common.MapSourceFilePath(filePath), "co", "some value", SearchCondition.Contains, Common.MapDestinationFilePath(filePath))
-                'ExEnd:ReplaceMetadataProperties
-            Catch exp As Exception
-                Console.WriteLine("Exception occurred: " + exp.Message)
-            End Try
-
+                For Each keyValuePair As KeyValuePair(Of String, PropertyValue) In values
+                    Console.WriteLine("Metadata: {0}, value: {1}", keyValuePair.Key, keyValuePair.Value)
+                Next
+                Console.WriteLine(vbLf & "**************************************************" & vbLf)
+            Next
+            'ExEnd:RuntimeFormatDetection
         End Sub
     End Class
 End Namespace
-
-
