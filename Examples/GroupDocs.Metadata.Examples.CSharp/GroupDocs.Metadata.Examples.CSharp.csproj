@@ -36,8 +36,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GroupDocs.Metadata, Version=17.10.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
-      <HintPath>..\packages\GroupDocs.Metadata.17.10\lib\net\GroupDocs.Metadata.dll</HintPath>
+    <Reference Include="GroupDocs.Metadata, Version=18.7.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>..\packages\GroupDocs.Metadata.18.7.0\lib\net\GroupDocs.Metadata.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -53,7 +53,9 @@
     <Compile Include="APIs.cs" />
     <Compile Include="Archives.cs" />
     <Compile Include="AudioFormats.cs" />
+    <Compile Include="DublinCore.cs" />
     <Compile Include="Emails.cs" />
+    <Compile Include="Torrent.cs" />
     <Compile Include="Utilities\AuthorReplaceHandler.cs" />
     <Compile Include="Utilities\Common.cs" />
     <Compile Include="Documents.cs" />
@@ -70,9 +72,7 @@
     <Compile Include="VideoFormats.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

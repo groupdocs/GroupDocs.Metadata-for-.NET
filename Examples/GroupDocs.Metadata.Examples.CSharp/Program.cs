@@ -31,7 +31,7 @@ namespace GroupDocs.Metadata.Examples.CSharp
             //Documents.Doc.GetDocumentProperties();
 
             //Update document properties of Doc file
-            ////Documents.Doc.UpdateDocumentProperties();
+            //Documents.Doc.UpdateDocumentProperties();
 
             //Remove document properties of Doc file
             //Documents.Doc.RemoveDocumentProperties();
@@ -86,6 +86,18 @@ namespace GroupDocs.Metadata.Examples.CSharp
 
             //Reject all changes in a revision
             //Documents.Doc.RejectAllChanges();
+
+            //Read DublinCore Metadata
+            //Documents.Doc.ReadDublinCoreMetadata();
+
+            //Read ImageCover using Metadata Utility
+            //Documents.Doc.ReadImageCoverMetadataUtility();
+
+            //Find Metadata Using Regex
+            //Documents.Doc.FindMetadataUsingRegex();
+
+            //Replace Metadata Using Regex
+            //Documents.Doc.ReplaceMetadataUsingRegex();
             #endregion
 
             #region Working with Ppt Files
@@ -156,6 +168,9 @@ namespace GroupDocs.Metadata.Examples.CSharp
             //Reads thumnail in excel file
             //Documents.Xls.ReadThumbnailXls();
 
+            //Read ImageCover using MetadataUtility
+            //Documents.Xls.ReadImageCoverMetadataUtility();
+
             #endregion
 
             #region Working with Pdf Files
@@ -193,6 +208,9 @@ namespace GroupDocs.Metadata.Examples.CSharp
             //Loads only existing metadata keys
             //Documents.Pdf.LoadExistingMetadataKeys();
 
+            //Read DublinCore Metadata
+            //Documents.Pdf.ReadDublinCoreMetadata();
+
             #endregion
 
             #region Working with OneNote Files
@@ -222,9 +240,40 @@ namespace GroupDocs.Metadata.Examples.CSharp
             //Documents.ODT.UpdateOdtMetadata();
             #endregion
 
+            #region Working with EPUB
+            //Detects EPUB file format
+            //Documents.EPUB.DetectEPUBFormat();
+            //Read EPUB file format metadata
+            //Documents.EPUB.ReadEPUBFormatMetadata();
+            //Read Dublin Core Metadata
+            //Documents.EPUB.ReadDublinCoreMetadata();
+            //Read Image cover from EPUB Format 
+            //Documents.EPUB.ReadImageCover();
+            //Read Image Cover using Metadata Utility
+            //Documents.EPUB.ReadImageCoverMetadataUtility();
+            //Read version of EPUB Package
+            //Documents.EPUB.ReadEPUBPackageVersion();
+            //Read DublinCore Metadata using unified approach
+            //Documents.EPUB.ReadDublinCoreMetadataUtility();
+            //Get Torrent Metadata Using Stream
+            //Documents.EPUB.GetMetadataUsingStream();
+
+            #endregion
+
             #region Working with ODS files
             //Documents.ODS.ReadOdsMetadata();
             #endregion
+
+            #region Working with MS Project files
+            //Get MS Project Metadata 
+            //Documents.MSProject.GetMetadata();
+            //Update MS Project Metadata
+            //Documents.MSProject.UpdateMetadata();
+            //Clean MS Project Metadata
+            //Documents.MSProject.CleanMetadata();     
+            //Documents.MSProject.UpdateMetadataUsingStream();
+            #endregion
+
             //Reads thumbnail in documents
             //Documents.ReadThumbnail("Documents/Doc/sample.docx");
 
@@ -260,6 +309,15 @@ namespace GroupDocs.Metadata.Examples.CSharp
 
             //Remove XMP properties of Gif image
             //Images.Gif.RemoveXMPProperties();
+
+            //Remove Medatadata of Gif image 
+            //Images.Gif.RemoveMetadata();
+
+            //Find XMP Metadata Using Regex
+            //Images.Gif.FindXmpMetadataUsingRegex();
+
+            //Update XMP Metadata Using Regex
+            //Images.Gif.ReplaceXmpMetadataUsingRegex();
 
             #endregion
 
@@ -357,6 +415,16 @@ namespace GroupDocs.Metadata.Examples.CSharp
 
             //Reads SRational TIFF tag in JPEG and TIFF image formats
             //Images.Jpeg.ReadSRationalTifftag();
+
+            //The method loads and save EXIF metadata with better speed
+            //Images.Jpeg.EXIFMetadataWithBetterSpeed();
+
+            //Find EXIF Metadata using regex
+            //Images.Jpeg.FindEXIFMetadataUsingRegex();
+
+            //Replace EXIF Metadata using regex
+            //Images.Jpeg.ReplaceEXIFMetadataUsingRegex();
+
             #endregion
 
             #region Working with Png
@@ -404,6 +472,9 @@ namespace GroupDocs.Metadata.Examples.CSharp
             // Read IPTC Metadata 
             //Images.Tiff.ReadIPTCMetadata();
 
+            //Remove XMP Metadata
+            //Images.Tiff.RemoveXMPMetadata();
+
             #endregion
 
             #region Working with Wmf
@@ -447,6 +518,7 @@ namespace GroupDocs.Metadata.Examples.CSharp
             //Images.DICOM.ExportMetadata();
 
             #endregion
+
             #region Read Byte order of images
             //Reads byte order of images of supported formats
             //Images.ReadByteOrder("Images/SampleImages");
@@ -469,6 +541,18 @@ namespace GroupDocs.Metadata.Examples.CSharp
 
             // Read IPTC Metadata 
             //Images.Psd.ReadIPTCMetadata();
+
+            // Update IPTC Metadata 
+            //Images.Psd.UpdateIPTCMetadata();
+
+            // Remove IPTC Metadata 
+            //Images.Psd.RemoveIPTCMetadata();
+
+            // Read IPTC Metadata PSD file using stream
+            //Images.Psd.ReadIPTCMetadatasUsingStream();
+
+            // Update IPTC Metadata using steam
+            //Images.Psd.UpdateIPTCMetadataUsingStream();
 
             // Read Layers
             //Images.Psd.ReadLayers();
@@ -637,6 +721,16 @@ namespace GroupDocs.Metadata.Examples.CSharp
             // Read Layrics3 Tag
             //AudioFormats.Mp3.ReadLayrics3Tag();
 
+            // Remove Lyrics3 Tag
+            //AudioFormats.Mp3.RemoveLayrics3Tag();
+
+            // Clean metadata 
+            //AudioFormats.Mp3.CleanMetadata();
+
+            // Remove APEv2 Tag
+            //AudioFormats.Mp3.RemoveAPEV2Tag();
+
+
             // Update ID3v1Tag
             //AudioFormats.Mp3.UpdateID3v1Tag();
 
@@ -645,6 +739,35 @@ namespace GroupDocs.Metadata.Examples.CSharp
 
             //Read APEV2 tag in MP3 files
             //AudioFormats.Mp3.ReadApev2Tag();
+
+            //Validate ID3 input metadata before saviing
+            //AudioFormats.Mp3.ValidateID3Metadata();
+
+            //Read additional properties from ID3v2 tag
+            //AudioFormats.Mp3.ReadAdditionalID3v2Properties();
+
+            //Update ID3v2 tag using properties 
+            //AudioFormats.Mp3.UpdateID3v2TagUsingProperties();
+
+            //Update ID3v1 tag using properties 
+            //AudioFormats.Mp3.UpdateID3v1TagUsingProperties();
+
+            //Ability to read Image cover from ID3 audio tag
+            //AudioFormats.Mp3.ReadImageCoverID3();
+
+            //Read Image Cover using Metadata Utility
+            //AudioFormats.Mp3.ReadImageCoverMetadataUtility();
+
+            //Update or Remove image cover from ID3 audio tag
+            //AudioFormats.Mp3.UpdateOrRemoveImageCoverID3();
+
+            //Read ID3v2 tag in MP3 format using stream
+            //AudioFormats.Mp3.ReadID3v2TagUsingStream();
+
+            // Update ID3v2Tag
+            //AudioFormats.Mp3.UpdateID3v2TagUsingStream();
+
+
             #endregion
 
             #region Working with WAV Files
@@ -654,6 +777,16 @@ namespace GroupDocs.Metadata.Examples.CSharp
 
             // Read Audio Details 
             //AudioFormats.Wav.ReadAudioDetails();
+
+            // Update XMP Metadata  
+            //AudioFormats.Wav.UpdateXmpMetadata();
+
+            //Remove XMP Metadata
+            //AudioFormats.Wav.RemoveXmpMetadata();
+
+            //Update XMP Metadata using stream
+            //AudioFormats.Wav.UpdateXmpMetadataUsingStream();
+
 
 
             #endregion
@@ -671,8 +804,17 @@ namespace GroupDocs.Metadata.Examples.CSharp
             //Read,write or update xmp metadata in AVI format
             //VideoFormats.Avi.DealWithXmpMetaData();
 
+            //Clean metadata in AVI format
+            //VideoFormats.Avi.CleanMetadata();
+
+            //Clean metadata in AVI using Stream
+            //VideoFormats.Avi.ReadAviMainHeaderUsingStream();
+
             //Detect Mov file format using format factory
             //VideoFormats.Mov.DetectMovFormat();
+
+            //Get Mov format metadata
+            //VideoFormats.Mov.GetMovFormatMetadata();
 
             //Get Mov format metadata
             //VideoFormats.Mov.GetMovFormatMetadata();
@@ -683,11 +825,43 @@ namespace GroupDocs.Metadata.Examples.CSharp
 
             #region Working with Zip format 
             //Detect Zip file format using format factory
-            Archives.Zip.DetectZipFormat();
+            //Archives.Zip.DetectZipFormat();
 
             //Get Zip format metadata
             //Archives.Zip.GetZipMatadata();
+
+            // Get ZIP format metadata using stream
+            //Archives.Zip.GetZipMatadataUsingStream();
+
+            //Remove ZIP format 
+            //Archives.Zip.RemoveComment();
+
+            //Update ZIP format Comment 
+            //Archives.Zip.UpdateComment();
+
             #endregion
+
+            #endregion
+
+            #region Working with Torrent Files
+            #region Working with Bit Torrent
+            //Read Bit Torrent File Metadata
+            //Torrent.BitTorrent.GetTorrentMetadata();
+            //Update Bit Torrent File Metadata 
+            //Torrent.BitTorrent.UpdateTorrentMedata();
+            //Read Bit Torrent File Metadata Using Stream
+            //Torrent.BitTorrent.GetTorrentMetadataUsingStream();
+            #endregion
+            #endregion
+
+            #region Working with DublinCore Metadata
+            //Get DublinCore of supported file formats using MetadataUtility class
+            //DublinCore.GetDublinCoreMetadata();
+
+            //Get DublinCore Metadata of supported file formats using IDublinCore Interface
+            //DublinCore.GetDublinCoreMetadataUsingIDublinCore();
+
+
 
             #endregion
             Console.ReadKey();
